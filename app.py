@@ -1,9 +1,10 @@
-# Version: 1.0.1
+# Version: 2.0 - Automated Deployment via GitHub Actions + AWS SSM
 # Built with GitHub Actions
 
 import os
 import re
 import csv
+from datetime import datetime
 from io import StringIO
 from flask import Flask, render_template, request, jsonify, send_from_directory, send_file
 from flask_cors import CORS
@@ -148,6 +149,15 @@ def index():
     Renders the main HTML page for the client-side audio player.
     """
     return render_template('index.html') 
+
+@app.route('/health')
+def health():
+    return {
+        'status': 'healthy',
+        'version': '2.0',
+        'deployment_method': 'automated',
+        'timestamp': datetime.now().isoformat()
+    }
 
 @app.route('/select_directory', methods=['POST'])
 def select_directory():
